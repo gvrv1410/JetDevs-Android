@@ -10,10 +10,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.inject
 
-@KoinApiExtension
 class MainActivityViewModel : BaseViewModel() {
     private val repository: DemoRepository by inject()
     private var _resultLiveData: MutableLiveData<String> = MutableLiveData()
