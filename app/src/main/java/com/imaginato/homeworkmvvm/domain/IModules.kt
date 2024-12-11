@@ -5,12 +5,17 @@ import androidx.room.Room
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.imaginato.homeworkmvvm.data.local.demo.DemoDatabase
-import com.imaginato.homeworkmvvm.data.local.demo.DemoDao
+import com.imaginato.homeworkmvvm.data.local.RoomDb.RoomDatabase
+import com.imaginato.homeworkmvvm.data.local.RoomDb.UserDao
+import com.imaginato.homeworkmvvm.data.remote.dashboard.DashboardRepository
+import com.imaginato.homeworkmvvm.data.remote.demo.ApiServices
 import com.imaginato.homeworkmvvm.data.remote.demo.DemoApi
 import com.imaginato.homeworkmvvm.data.remote.demo.DemoDataRepository
 import com.imaginato.homeworkmvvm.data.remote.demo.DemoRepository
+import com.imaginato.homeworkmvvm.data.remote.login.LoginRepository
+import com.imaginato.homeworkmvvm.ui.dashboardActivity.DashboardActivityViewmodel
 import com.imaginato.homeworkmvvm.ui.demo.MainActivityViewModel
+import com.imaginato.homeworkmvvm.ui.loginActivity.LoginActivityViewModel
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -23,6 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 private const val BASE_URL = "https://ifconfig.me/"
+private const val BASE_URL2 = "http://private-222d3-homework5.apiary-mock.com/"
 
 val databaseModule = module {
     single { provideDatabase(androidApplication()) }
@@ -38,37 +44,51 @@ val netModules = module {
 
 val apiModules = module {
     single { provideDemoApi(get()) }
+    single { provideApiServices(get()) }
 }
 
 val repositoryModules = module {
     single { provideDemoRepo(get()) }
+    single { provideLoginRepo(get())  }
+    single { provideDashboardRepo(get())  }
 }
 
 val viewModelModules = module {
-    viewModel {
-        MainActivityViewModel()
-    }
+
+    viewModel { MainActivityViewModel(get()) }
+    viewModel { LoginActivityViewModel(get(), get()) }
+    viewModel { DashboardActivityViewmodel(get(), get()) }
 }
 
 private fun provideDemoRepo(api: DemoApi): DemoRepository {
     return DemoDataRepository(api)
 }
+private fun provideLoginRepo(apiServices: ApiServices): LoginRepository{
+    return LoginRepository(apiServices)
+}
+private fun provideDashboardRepo(apiServices: ApiServices):  DashboardRepository{
+    return DashboardRepository(apiServices)
+}
+private fun provideApiServices(retrofit: Retrofit): ApiServices{
+    return retrofit.create(ApiServices::class.java)
+}
 
 private fun provideDemoApi(retrofit: Retrofit): DemoApi = retrofit.create(DemoApi::class.java)
 
-private fun provideDatabase(application: Application): DemoDatabase {
-    return Room.databaseBuilder(application, DemoDatabase::class.java, "I-Database")
-        .fallbackToDestructiveMigration()
+private fun provideDatabase(application: Application): RoomDatabase {
+    return Room.databaseBuilder(application, RoomDatabase::class.java, "I-Database")
+        .fallbackToDestructiveMigration(false)
+        .allowMainThreadQueries()
         .build()
 }
 
-private fun provideDao(database: DemoDatabase): DemoDao {
-    return database.demoDao
+private fun provideDao(database: RoomDatabase): UserDao {
+    return database.userDao
 }
 
 private fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
     return Retrofit.Builder()
-        .baseUrl(BASE_URL)
+        .baseUrl(BASE_URL2)
         .client(okHttpClient)
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .addConverterFactory(GsonConverterFactory.create())

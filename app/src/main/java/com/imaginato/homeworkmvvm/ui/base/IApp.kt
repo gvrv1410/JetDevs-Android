@@ -12,8 +12,15 @@ import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
 class IApp : Application() {
+
+    companion object {
+        private lateinit var instance: IApp
+
+        fun getInstance(): IApp = instance
+    }
     override fun onCreate() {
         super.onCreate()
+        instance = this
         initKoin()
     }
 

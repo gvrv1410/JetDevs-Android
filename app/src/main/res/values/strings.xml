@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">HomeWorkMVVM</string>
+    <string name="username">Username</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+
+    <!--Exception message-->
+    <string name="something_went_wrong">Something went wrong.</string>
+    <string name="exception_error_unauthorized">Unauthorised User</string>
+    <string name="exception_error_forbidden">Forbidden</string>
+    <string name="exception_error_bad_request">Bad Request</string>
+    <string name="exception_error_network">Internet connection not found.</string>
+    <string name="exception_error_server">Server is under maintenance, please try after some time.</string>
+    <string name="exception_error_unparceble">Unparceble data found from server.</string>
+    <!--Exception message-->
 </resources>

@@ -1,5 +1,7 @@
 package com.imaginato.homeworkmvvm.domain
 
-import org.koin.core.component.KoinComponent
+//import org.koin.core.component.KoinApiExtension
+//import org.koin.core.component.KoinComponent
 
-interface BaseUseCase: KoinComponent
+//@KoinApiExtension
+//interface BaseUseCase: KoinComponent

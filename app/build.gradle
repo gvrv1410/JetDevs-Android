@@ -34,6 +34,10 @@ android {
 
     buildFeatures {
         viewBinding = true
+        dataBinding true
+    }
+    testOptions {
+        unitTests.includeAndroidResources = true
     }
 }
 
@@ -58,6 +62,9 @@ dependencies {
     testImplementation 'androidx.arch.core:core-testing:2.2.0'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1'
     testImplementation 'org.robolectric:robolectric:4.10.3'
+    testImplementation "org.mockito.kotlin:mockito-kotlin:5.0.0"
+    testImplementation "org.mockito:mockito-inline:5.2.0"
+
 
 
     // retrofit okhttp
@@ -76,6 +83,8 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.5.0' //2.2.5
     implementation 'androidx.room:room-ktx:2.5.0' //2.2.5
     kapt 'androidx.room:room-compiler:2.5.0' //2.1.0
+    testImplementation "androidx.room:room-testing:2.5.0"
+
 
     // sdp for text and layout size
     implementation "com.intuit.sdp:sdp-android:1.1.1"

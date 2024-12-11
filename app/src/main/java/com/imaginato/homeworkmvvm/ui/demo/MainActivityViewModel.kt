@@ -2,6 +2,7 @@ package com.imaginato.homeworkmvvm.ui.demo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imaginato.homeworkmvvm.data.remote.demo.DemoRepository
 import com.imaginato.homeworkmvvm.ui.base.BaseViewModel
@@ -10,10 +11,11 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+//import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.inject
 
-class MainActivityViewModel : BaseViewModel() {
-    private val repository: DemoRepository by inject()
+//@KoinApiExtension
+class MainActivityViewModel constructor(val repository: DemoRepository): ViewModel() {
     private var _resultLiveData: MutableLiveData<String> = MutableLiveData()
     private var _progress: MutableLiveData<Boolean> = MutableLiveData()
     val progress: LiveData<Boolean>

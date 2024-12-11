@@ -6,7 +6,9 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import com.imaginato.homeworkmvvm.databinding.ActivityMainBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
+//import org.koin.core.component.KoinApiExtension
 
+//@KoinApiExtension
 class MainActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<MainActivityViewModel>()
